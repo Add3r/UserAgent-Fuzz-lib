@@ -42,8 +42,6 @@ Offers options for data visualization, including:
 - ![General User Agents > 500](Charts/General%20User-agents%20greater%20than%20500.png)
 - ![General User Agents < 500](Charts/General%20User-agents%20less%20than%20500.png)
 
-
-
 💾 **Save Charts and Data:**
 Allows users to save generated charts and data to a local directory.
 
