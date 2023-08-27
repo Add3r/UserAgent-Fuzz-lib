@@ -33,13 +33,16 @@ Offers options for data visualization, including:
 - Word clouds for user agent group names.
 
 **Cool Statistics:**
-- ![General User Agents > 500](Charts/General%20User-agents%20greater%20than%20500.png)
+
+*** Mobile ***
 - ![Highest Mobile User Agents](Charts/Highest%20Mobile%20User-agents.png)
-- ![General User Agents < 50](Charts/General%20User-agents%20less%20than%2050.png)
-- ![Mobile User Agents < 10](Charts/Mobile%20User-agents%20less%20than%2010.png)
-- ![General User Agents < 500](Charts/General%20User-agents%20less%20than%20500.png)
 - ![Mobile User Agents < 500](Charts/Mobile%20User-agents%20less%20than%20500.png)
+*** General ***
 - ![Highest General User Agents](Charts/Highest%20General%20User-agents.png)
+- ![General User Agents > 500](Charts/General%20User-agents%20greater%20than%20500.png)
+- ![General User Agents < 500](Charts/General%20User-agents%20less%20than%20500.png)
+
+
 
 💾 **Save Charts and Data:**
 Allows users to save generated charts and data to a local directory.
