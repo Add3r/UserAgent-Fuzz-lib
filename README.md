@@ -54,14 +54,13 @@ An easy-to-use command-line interface.
    
    ```bash
    pip3 install -r requirements.txt
-
-
+   ```
 
 3. **Run the Script:**
    Open a terminal and navigate to the project directory. Run the script using the following command:
 
    ```bash
-   python User-Agent-Parser.py
+   python User-Agent-Dict.py
    ```
 
 Follows the Prompts: The script will prompt you to interactively choose from various options, such as viewing pie charts, generating word clouds, and more.
