@@ -65,11 +65,10 @@ Data Visualization: The script generates various types of charts and visualizati
 
 Saving Charts: Choose to save generated charts and data to a local directory.
 
-Sample Output
+## Sample Output
 
 Video Tutorial
 Watch the full tutorial on YouTube
-
 
 ## Cool Statistics
 
