@@ -2,6 +2,9 @@
   <img src="images/user-agent-dict-logo.png" alt="User Agent Dictionary Logo">
 </p>
 
+![GitHub release (latest by date)](https://img.shields.io/github/v/release/Add3r/UserAgent-Parser)
+
+
 # UserAgent-Dictionary
 
 This repository holds data for the Proxy_Bypass vulnerability research tool with the `user-agents.json` file generated from the `User-Agent-Parser.py` script within this repository. Additionally, the `ua-stats.py` script is used to draw various statistics out of the `user-agents.json` file.
