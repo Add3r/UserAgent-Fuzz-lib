@@ -2,54 +2,36 @@
   <img src="images/user-agent-dict-logo.png" alt="User Agent Dictionary Logo">
 </p>
 
-![GitHub release (latest by date)](https://img.shields.io/github/v/release/Add3r/UserAgent-Parser) [![Awesome](https://img.shields.io/badge/Awesome-%F0%9F%98%8E-blueviolet.svg)](https://shields.io/) ![Made with Love](https://img.shields.io/badge/Made%20with-%E2%9D%A4-red.svg) ![Repository Views](https://komarev.com/ghpvc/?username=Add3r&label=Repository+Views) ![Release Downloads](https://img.shields.io/github/downloads/Add3r/UserAgent-Parser/releases/tag/V1.0.0/total.svg) ![Python](https://img.shields.io/badge/Python-3.11.5-blue.svg)
+![GitHub release (latest by date)](https://img.shields.io/github/v/release/Add3r/UserAgent-Parser) [![Awesome](https://img.shields.io/badge/Awesome-%F0%9F%98%8E-blueviolet.svg)](https://shields.io/) ![Made with Love](https://img.shields.io/badge/Made%20with-%E2%9D%A4-red.svg) ![Repository Views](https://komarev.com/ghpvc/?username=Add3r&label=Repository+Views) ![Python](https://img.shields.io/badge/Python-3.11.5-blue.svg) <!--![Release Downloads](https://img.shields.io/github/downloads/Add3r/UserAgent-Parser/releases/tag/V1.0.0/total.svg)-->
 
-![Dictionary Download](https://img.shields.io/github/downloads/Add3r/UserAgent-Parser/blob/main/user_agents.json/total.svg) ![Total User-Agents Archived](https://img.shields.io/badge/Total%20User--Agents%20Archived-11256-blue.svg) ![Mobile User-Agents](https://img.shields.io/badge/Mobile%20User--Agents-629-green.svg) ![General User-Agents](https://img.shields.io/badge/General%20User--Agents-10627-green.svg)
+<!--![Dictionary Download](https://img.shields.io/github/downloads/Add3r/UserAgent-Parser/blob/main/user_agents.json/total.svg)--> 
+![Total User-Agents Archived](https://img.shields.io/badge/Total%20User--Agents%20Archived-11256-blue.svg) ![Mobile User-Agents](https://img.shields.io/badge/Mobile%20User--Agents-629-orange.svg) ![General User-Agents](https://img.shields.io/badge/General%20User--Agents-10627-green.svg)
 
 
-# UserAgent-Dictionary
+# UserAgent Fuzzing-Library
 
-This repository holds data for the Proxy_Bypass vulnerability research tool with the `user-agents.json` file generated from the `User-Agent-Parser.py` script within this repository. Additionally, the `ua-stats.py` script is used to draw various statistics out of the `user-agents.json` file.
+This repository holds data of all the user agents in the `user_agents.json` file, which can be used directly with any tool that can parse json format.
+
+download the repo to update the user-agent data by running `User-Agent-Dict.py` and edit the file per the fields you would like to add or remove.
+
+Major intention for creating this dictionary of useragents was to feed it to Proxy_Bypass vulnerability research tool(under development in private repo) to use the `user-agents.json` file as input for fuzzing proxies.
+
+As a PoC have provided the `ua-stats.py` script which draw various statistics out of the `user-agents.json` file as input
 
 ## Overview
 
-The User Agent Data Scraper is designed to:
-
 🎯 **Primary:**
-- Scrape user agent data from [useragentstring.com](https://www.useragentstring.com/pages/All/)
-- Create a dictionary of user agents to be used by the proxy-bypass vulnerability research tool
-- Organize the data into dictionaries.
+- The User Agent Dict python script is designed to scrape from [useragentstring.com](https://www.useragentstring.com/pages/All/)
+- To use as Fuzzing library of user-agents used for vulnerability research tools
+- Organize the data into dictionaries, for faster access (mimicing hashmaps)
 
 🚀 **Secondary:**
 - Identify user agent groups based on specified conditions.
+   - High used vs low used user-agents to choose for fuzzing
 - Display statistics about general and mobile user agents.
 - Provide options for data visualization using pie charts, word clouds, and more.
 
-## Features
-
-🌟 **Scrapes User Agent Data:**
-Scrapes user agent data from a URL and stores it in dictionaries.
-
-🔍 **Filters and Organizes:**
-Filters and organizes user agents based on conditions.
-
-📊 **Provides Statistics:**
-Provides statistics about general and mobile user agents.
-
-📈 **Data Visualization:**
-Offers options for data visualization, including:
-- Pie charts for user agent groups.
-- Word clouds for user agent group names.
-
-💾 **Save Charts and Data:**
-Allows users to save generated charts and data to a local directory.
-
-🎈 **Easy-to-Use Interface:**
-An easy-to-use command-line interface.
-
 ## How to Use
-
-[![Watch the video](video_thumbnail.png)](video_link)
 
 1. **Installation:**
    Clone this repository to your local machine.
@@ -65,40 +47,113 @@ An easy-to-use command-line interface.
    Open a terminal and navigate to the project directory. Run the script using the following command:
 
    ```bash
-   python User-Agent-Dict.py
+   python3 User-Agent-Dict.py
    ```
 
-Follows the Prompts: The script will prompt you to interactively choose from various options, such as viewing pie charts, generating word clouds, and more.
+## Sample Output
+   
+   ***If you would like to print on screen***
+   ```
+   > python3 User-Agent-Dict.py
+   Do you want to print the data on the screen? (yes/no): yes
+   
+   [
+    {
+        "title": "ABrowse 0.6",
+        "group": "ABrowse",
+        "id": "ua-1",
+        "user-agent": "Mozilla/5.0 (compatible; U; ABrowse 0.6; Syllable) AppleWebKit/420+ (KHTML, like Gecko)",
+        "Host": "General"
+    },
+   .
+   .
+   .
+   (output Truncated)
+   .
+   .
+    {
+        "title": "WDG_Validator 1.6.2",
+        "group": "WDG_Validator",
+        "id": "ua-11256",
+        "user-agent": "WDG_Validator/1.6.2",
+        "Host": "Mobile"
+    }
+   ]
+   ```
+   ***If you would like to update the `user_agents.json` file***
+   <pre>
+   <code>
+   Do you want to update the JSON file? (yes/no): yes
+   <span style="color: green;">[+]</span> General User Agents: <span style="color: cyan;">10627</span>
+   <span style="color: green;">[+]</span> Mobile User Agents: <span style="color: cyan;">629</span>
+   <span style="color: green;">[+]</span> Total User Agents: <span style="color: cyan;">11256</span>
+   <span style="color: green;">[+]</span> JSON file updated successfully.
+   <span style="color: yellow;">[!]</span> No new user-agents found.
+   </code>
+   </pre>
+## Statistics
 
-Data Visualization: The script generates various types of charts and visualizations to analyze user agent data.
+As a PoC, have added a basic statistics deriving script `ua-stats.py` that uses the `user_agents.json` as input file.
 
-Saving Charts: Choose to save generated charts and data to a local directory.
+`ua-stats.py` script will prompt you to interactively choose from various options, such as viewing pie charts and generating word clouds from the `user_agents.json` data.
+
+## How to Use `ua-stats.py`
+
+1. **Run the Script:**
+   Open a terminal and navigate to the project directory. Run the script using the following command:
+
+   ```bash
+   python3 ua-stats.py
+   ```
 
 ## Sample Output
 
-Video Tutorial
-Watch the full tutorial on YouTube
+   ```
+   > python3 ua-stats.py
+   Select an option:
+   1. Pie chart for Mobile User Agents (Count < 10)
+   2. Pie chart for Mobile User Agents (10 <= Count < 500)
+   3. Pie chart for General User Agents (10 <= Count < 50)
+   4. Pie chart for General User Agents (50 <= Count < 500)
+   5. Pie chart for General User Agents (Count >= 500)
+   6. Word Cloud for Mobile User Agent Group Names
+   7. Word Cloud for General User Agent Group Names
+   8. Exit
+   Enter your choice (1/2/3/4/5/6/7/8): 
+   ```
 
-## Statistics
+This is only a PoC to use of using the json file data, there could be more analysis you could think of with this data. 😀
+
+**Few Samples Below**
 
 **Mobile**
 
-Highest Mobile User Agents
-![Highest Mobile User Agents](Charts/Highest%20Mobile%20User-agents.png)
+<p align="center">
+  <strong>Highest Mobile User Agents</strong><br>
+  <img src="Charts/Highest%20Mobile%20User-agents.png" alt="Highest Mobile User Agents">
+</p>
 
-Mobile User Agents < 500
-![Mobile User Agents < 500](Charts/Mobile%20User-agents%20less%20than%20500.png)
+<p align="center">
+  <strong>Mobile User Agents &lt; 500</strong><br>
+  <img src="Charts/Mobile%20User-agents%20less%20than%20500.png" alt="Mobile User Agents < 500">
+</p>
 
-***General***
+**General**
 
-Highest General User Agents
-![Highest General User Agents](Charts/Highest%20General%20User-agents.png)
+<p align="center">
+  <strong>Highest General User Agents</strong><br>
+  <img src="Charts/Highest%20General%20User-agents.png" alt="Highest General User Agents">
+</p>
 
-General User Agents > 500
-![General User Agents > 500](Charts/General%20User-agents%20greater%20than%20500.png)
+<p align="center">
+  <strong>General User Agents &gt; 500</strong><br>
+  <img src="Charts/General%20User-agents%20greater%20than%20500.png" alt="General User Agents > 500">
+</p>
 
-General User Agents < 500
-![General User Agents < 500](Charts/General%20User-agents%20less%20than%20500.png)
+<p align="center">
+  <strong>General User Agents &lt; 500</strong><br>
+  <img src="Charts/General%20User-agents%20less%20than%20500.png" alt="General User Agents < 500">
+</p>
 
 ## Note
 The script may require an internet connection to retrieve data from the specified URL.
