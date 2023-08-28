@@ -1,4 +1,8 @@
-# UserAgent-Parser
+<p align="center">
+  <img src="images/user-agent-dict-logo.png" alt="User Agent Dictionary Logo">
+</p>
+
+# UserAgent-Dictionary
 
 This repository holds data for the Proxy_Bypass vulnerability research tool with the `user-agents.json` file generated from the `User-Agent-Parser.py` script within this repository. Additionally, the `ua-stats.py` script is used to draw various statistics out of the `user-agents.json` file.
 
@@ -51,7 +55,7 @@ An easy-to-use command-line interface.
    ```bash
    pip3 install -r requirements.txt
 
-   ```
+
 
 3. **Run the Script:**
    Open a terminal and navigate to the project directory. Run the script using the following command:
@@ -71,16 +75,26 @@ Saving Charts: Choose to save generated charts and data to a local directory.
 Video Tutorial
 Watch the full tutorial on YouTube
 
-## Cool Statistics
+## Statistics
 
 **Mobile**
-- ![Highest Mobile User Agents](Charts/Highest%20Mobile%20User-agents.png)
-- ![Mobile User Agents < 500](Charts/Mobile%20User-agents%20less%20than%20500.png)
+
+Highest Mobile User Agents
+![Highest Mobile User Agents](Charts/Highest%20Mobile%20User-agents.png)
+
+Mobile User Agents < 500
+![Mobile User Agents < 500](Charts/Mobile%20User-agents%20less%20than%20500.png)
 
 ***General***
-- ![Highest General User Agents](Charts/Highest%20General%20User-agents.png)
-- ![General User Agents > 500](Charts/General%20User-agents%20greater%20than%20500.png)
-- ![General User Agents < 500](Charts/General%20User-agents%20less%20than%20500.png)
+
+Highest General User Agents
+![Highest General User Agents](Charts/Highest%20General%20User-agents.png)
+
+General User Agents > 500
+![General User Agents > 500](Charts/General%20User-agents%20greater%20than%20500.png)
+
+General User Agents < 500
+![General User Agents < 500](Charts/General%20User-agents%20less%20than%20500.png)
 
 ## Note
 The script may require an internet connection to retrieve data from the specified URL.
