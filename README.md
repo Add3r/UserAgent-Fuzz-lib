@@ -32,16 +32,6 @@ Offers options for data visualization, including:
 - Pie charts for user agent groups.
 - Word clouds for user agent group names.
 
-**Cool Statistics:**
-
-*** Mobile ***
-- ![Highest Mobile User Agents](Charts/Highest%20Mobile%20User-agents.png)
-- ![Mobile User Agents < 500](Charts/Mobile%20User-agents%20less%20than%20500.png)
-*** General ***
-- ![Highest General User Agents](Charts/Highest%20General%20User-agents.png)
-- ![General User Agents > 500](Charts/General%20User-agents%20greater%20than%20500.png)
-- ![General User Agents < 500](Charts/General%20User-agents%20less%20than%20500.png)
-
 💾 **Save Charts and Data:**
 Allows users to save generated charts and data to a local directory.
 
@@ -69,20 +59,31 @@ Run the Script: Open a terminal and navigate to the project directory. Run the s
 python User-Agent-Parser.py
 ```
 
-Follow the Prompts: The script will prompt you to interactively choose from various options, such as viewing pie charts, generating word clouds, and more.
+Follows the Prompts: The script will prompt you to interactively choose from various options, such as viewing pie charts, generating word clouds, and more.
 
 Data Visualization: The script generates various types of charts and visualizations to analyze user agent data.
 
 Saving Charts: Choose to save generated charts and data to a local directory.
 
-Sample Output
+## Sample Output
 
 Video Tutorial
 Watch the full tutorial on YouTube
 
-Note
+## Cool Statistics
+
+**Mobile**
+- ![Highest Mobile User Agents](Charts/Highest%20Mobile%20User-agents.png)
+- ![Mobile User Agents < 500](Charts/Mobile%20User-agents%20less%20than%20500.png)
+
+***General***
+- ![Highest General User Agents](Charts/Highest%20General%20User-agents.png)
+- ![General User Agents > 500](Charts/General%20User-agents%20greater%20than%20500.png)
+- ![General User Agents < 500](Charts/General%20User-agents%20less%20than%20500.png)
+
+## Note
 The script may require an internet connection to retrieve data from the specified URL.
 If you encounter any issues or have questions, feel free to open an issue in this repository.
 
-License
+## License
 This project is licensed under the MIT License - see the LICENSE file for details.
