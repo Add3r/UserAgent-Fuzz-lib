@@ -2,10 +2,10 @@
   <img src="images/user-agent-dict-logo.png" alt="User Agent Dictionary Logo">
 </p>
 
-![GitHub release (latest by date)](https://img.shields.io/github/v/release/Add3r/UserAgent-Parser) [![Awesome](https://img.shields.io/badge/Awesome-%F0%9F%98%8E-blueviolet.svg)](https://shields.io/) ![Repository Views](https://komarev.com/ghpvc/?username=Add3r&label=Repository+Views) ![Release Downloads](https://img.shields.io/github/downloads/Add3r/UserAgent-Parser/v1.0.0/total.svg) ![Python](https://img.shields.io/badge/Python-3.11.5-blue.svg)
+![GitHub release (latest by date)](https://img.shields.io/github/v/release/Add3r/UserAgent-Parser) [![Awesome](https://img.shields.io/badge/Awesome-%F0%9F%98%8E-blueviolet.svg)](https://shields.io/) ![Made with Love](https://img.shields.io/badge/Made%20with-%E2%9D%A4-red.svg) ![Repository Views](https://komarev.com/ghpvc/?username=Add3r&label=Repository+Views) ![Release Downloads](https://img.shields.io/github/downloads/Add3r/UserAgent-Parser/releases/tag/V1.0.0/total.svg) ![Python](https://img.shields.io/badge/Python-3.11.5-blue.svg)
 
-![Dictionary Downloads](![File Downloads](https://img.shields.io/github/downloads/Add3r/UserAgent-Parser/user_agents.json/total.svg)
-) ![Total User-Agents Archived](https://img.shields.io/badge/Number-11256-blue.svg) ![Mobile User-Agents](https://img.shields.io/badge/Number-629-green.svg) ![General User-Agents](https://img.shields.io/badge/Number-10627-blue.svg)
+(![Dictionary Download](https://img.shields.io/github/downloads/Add3r/UserAgent-Parser/user_agents.json/total.svg)
+) ![Total User-Agents Archived](https://img.shields.io/badge/Total%20User--Agents%20Archived-11256-blue.svg) ![Mobile User-Agents](https://img.shields.io/badge/Mobile%20User--Agents-629-green.svg) ![General User-Agents](https://img.shields.io/badge/General%20User--Agents-10627-blue.svg)
 
 
 # UserAgent-Dictionary
