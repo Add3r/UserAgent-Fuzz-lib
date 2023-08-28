@@ -1,6 +1,6 @@
 # Security Guidelines
 
-Welcome to the UserAgent-Parser repository! We appreciate your interest in contributing to the project's security and stability. By following these guidelines, you can help ensure a secure and positive environment for everyone involved.
+Welcome to the UserAgent-Dictionary repository! We appreciate your interest in contributing to the project's security and stability. By following these guidelines, you can help ensure a secure and positive environment for everyone involved.
 
 ## Reporting Security Issues
 
