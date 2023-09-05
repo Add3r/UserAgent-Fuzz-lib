@@ -5,6 +5,7 @@
 <div align="center">
 
 ![GitHub release (latest by date)](https://img.shields.io/github/v/release/Add3r/UserAgent-Parser)
+[![License: GPL-3.0](https://img.shields.io/badge/License-GPL--3.0-yellow.svg)](https://github.com/Add3r/UserAgent-Parser/blob/main/LICENSE)
 [![Awesome](https://img.shields.io/badge/Awesome-%F0%9F%98%8E-blueviolet.svg)](https://shields.io/)
 ![Made with Love](https://img.shields.io/badge/Made%20with-%E2%9D%A4-red.svg)
 [![Support](https://img.shields.io/static/v1?label=Support&message=Ko-fi&color=ff5e5b&logo=ko-fi)](https://ko-fi.com/add3r)
@@ -169,4 +170,4 @@ The script may require an internet connection to retrieve data from the specifie
 If you encounter any issues or have questions, feel free to open an issue in this repository.
 
 ## License
-This project is licensed under the MIT License - see the LICENSE file for details.
+This project is licensed under the GPL 3.0 License - see the LICENSE file for details.
