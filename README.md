@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="images/ua-fuzz-lib-logo.png" alt="User Agent Dictionary Logo">
+  <img src="images/user-agent-dict-logo.png" alt="User Agent Dictionary Logo">
 </p>
 
 <div align="center">
