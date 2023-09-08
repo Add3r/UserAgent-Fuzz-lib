@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="images/user-agent-dict-logo.png" alt="User Agent Dictionary Logo">
+  <img src="images/ua-fuzz-lib-logo.png" alt="User Agent Dictionary Logo">
 </p>
 
 <div align="center">
@@ -22,7 +22,7 @@
 
 This repository holds data of all the user agents in the `user_agents.json` file, which can be used directly with any tool that can parse json format.
 
-download the repo to update the user-agent data by running `User-Agent-Dict.py` and edit the file per the fields you would like to add or remove.
+download the repo to update the user-agent data by running `ua-fuzz-lib.py` and edit the file per the fields you would like to add or remove.
 
 Major intention for creating this dictionary of useragents was to feed it to Proxy_Bypass vulnerability research tool(under development in private repo) to use the `user-agents.json` file as input for fuzzing proxies.
 
@@ -57,14 +57,14 @@ As a PoC have provided the `ua-stats.py` script which draw various statistics ou
    Open a terminal and navigate to the project directory. Run the script using the following command:
 
    ```bash
-   python3 User-Agent-Dict.py
+   python3 ua-fuzz-lib.py
    ```
 
 ## Sample Output
    
    ***If you would like to print on screen***
    ```
-   > python3 User-Agent-Dict.py
+   > python3 ua-fuzz-lib.py
    Do you want to print the data on the screen? (yes/no): yes
    
    [
