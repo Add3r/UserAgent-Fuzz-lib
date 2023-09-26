@@ -42,7 +42,10 @@ class UserAgentFuzzLib:
                         href = a_tag['href']
                         user_agent = a_tag.text
                         user_agent = user_agent.replace("-->>", "")
-                
+
+                        if user_agent.startswith("More"):
+                            continue
+
                         if "Opera/9.80 (J2ME/MIDP; Opera Mini/4.2.14912Mod.By.www.9jamusic.cz.cc/22.387; U; en)" in user_agent:
                             continue
                 
