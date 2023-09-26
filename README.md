@@ -12,9 +12,9 @@
 
 ![Repository Views](https://komarev.com/ghpvc/?username=Add3r&label=Repository+Views)
 ![Python](https://img.shields.io/badge/Python-3.11.5-blue.svg)
-![Total User-Agents Archived](https://img.shields.io/badge/Total%20User--Agents%20Archived-11256-blue.svg)
-![Mobile User-Agents](https://img.shields.io/badge/Mobile%20User--Agents-629-orange.svg)
-![General User-Agents](https://img.shields.io/badge/General%20User--Agents-10627-green.svg)
+![Total User-Agents Archived](https://img.shields.io/badge/Total%20User--Agents%20Archived-11080-blue.svg)
+![Mobile User-Agents](https://img.shields.io/badge/Mobile%20User--Agents-627-orange.svg)
+![General User-Agents](https://img.shields.io/badge/General%20User--Agents-10453-green.svg)
 
 </div>
 
