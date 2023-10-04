@@ -60,7 +60,7 @@ class UserAgentFuzzLib:
                             "group": group if group != "Opera/9.80 (J2ME/MIDP; Opera Mini/4.2.14912Mod.By.www.9jamusic.cz.cc/22.387; U; en)" else "",
                             "id": f"ua-{self.sequence}",
                             "user-agent": user_agent if user_agent != "Opera/9.80 (J2ME/MIDP; Opera Mini/4.2.14912Mod.By.www.9jamusic.cz.cc/22.387; U; en)" else "",
-                            "Host": host
+                            "Platform": host
                         }
                 
                         if "Xenu Link Sleuth/1.3.7" in user_agent:
@@ -146,8 +146,8 @@ class UserAgentFuzzLib:
 
     def print_updates(self):
         try:
-            mobile_user_agents = sum(1 for ua in self.user_agents if ua["Host"] == "Mobile")
-            general_user_agents = sum(1 for ua in self.user_agents if ua["Host"] == "General")
+            mobile_user_agents = sum(1 for ua in self.user_agents if ua["Platform"] == "Mobile")
+            general_user_agents = sum(1 for ua in self.user_agents if ua["Platform"] == "General")
             total_user_agents_after = len(self.user_agents)
 
             print(GREEN + "[+]" + RESET + " General User Agents: " + BLUE + str(general_user_agents) + RESET)
