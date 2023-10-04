@@ -23,7 +23,7 @@ except FileNotFoundError:
 mobile_group_counts = {}
 general_group_counts = {}
 for ua in user_agents:
-    if ua["Host"] == "Mobile":
+    if ua["Platform"] == "Mobile":
         if ua["group"]:
             mobile_group_counts[ua["group"]] = mobile_group_counts.get(ua["group"], 0) + 1
     else:
