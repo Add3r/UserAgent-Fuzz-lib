@@ -24,7 +24,7 @@ This repository holds data of all the user agents in the `user_agents.json` file
 
 download the repo to update the user-agent data by running `ua-fuzz-lib.py` and edit the file per the fields you would like to add or remove.
 
-Major intention for creating this dictionary of useragents was to feed it to [Proxy_Bypass](https://github.com/Add3r/Proxy_Bypass) vulnerability research tool (under development in private repo) to use the `user-agents.json` file as input for fuzzing proxies.
+Major intention for creating this dictionary of useragents was to feed it to [Proxy_Bypass](https://github.com/Add3r/Proxy_Bypass) vulnerability research tool to use the `user-agents.json` file as input for fuzzing proxies.
 
 As a PoC have provided the `ua-stats.py` script which draw various statistics out of the `user-agents.json` file as input
 
