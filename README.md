@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="images/user-agent-dict-logo.png" alt="User Agent Dictionary Logo">
+  <img src="images/User agent-dict-logo.png" alt="User Agent Dictionary Logo">
 </p>
 
 <div align="center">
@@ -12,9 +12,9 @@
 
 ![Repository Views](https://komarev.com/ghpvc/?username=Add3r&label=Repository+Views)
 ![Python](https://img.shields.io/badge/Python-3.11.5-blue.svg)
-![Total User-Agents Archived](https://img.shields.io/badge/Total%20User--Agents%20Archived-11080-blue.svg)
-![Mobile User-Agents](https://img.shields.io/badge/Mobile%20User--Agents-627-orange.svg)
-![General User-Agents](https://img.shields.io/badge/General%20User--Agents-10453-green.svg)
+![Total User agents Archived](https://img.shields.io/badge/Total%20User--Agents%20Archived-11080-blue.svg)
+![Mobile User agents](https://img.shields.io/badge/Mobile%20User--Agents-627-orange.svg)
+![General User agents](https://img.shields.io/badge/General%20User--Agents-10453-green.svg)
 
 </div>
 
@@ -22,22 +22,22 @@
 
 This repository holds data of all the user agents in the `user_agents.json` file, which can be used directly with any tool that can parse json format.
 
-download the repo to update the user-agent data by running `ua-fuzz-lib.py` and edit the file per the fields you would like to add or remove.
+download the repo to update the User agent data by running `ua-fuzz-lib.py` and edit the file per the fields you would like to add or remove.
 
-This dictionary of useragents was built to provide as input to [Proxy_Bypass](https://github.com/Add3r/Proxy_Bypass) vulnerability research tool to use the `user-agents.json` file as input for fuzzing proxies.
+This dictionary of user agentswas built to provide as input to [Proxy_Bypass](https://github.com/Add3r/Proxy_Bypass) vulnerability research tool to use the `User agents.json` file as input for fuzzing proxies.
 
-As a PoC have provided the `ua-stats.py` script which draw various statistics out of the `user-agents.json` file as input
+As a PoChave provided the `ua-stats.py` script which drawsvarious statistics out of the `User agents.json` file as input
 
 ## Overview
 
 🎯 **Primary:**
 - The User Agent Dict python script is designed to scrape from [useragentstring.com](https://www.useragentstring.com/pages/All/)
-- To use as Fuzzing library of user-agents used for vulnerability research tools (.i.e) [Proxy_Bypass](https://github.com/Add3r/Proxy_Bypass)
-- Organize the data into dictionaries, for faster access (mimicing hashmaps)
+- To use as Fuzzing library of user agents used for vulnerability research tools (.i.e) [Proxy_Bypass](https://github.com/Add3r/Proxy_Bypass)
+- Organize the data into dictionaries, for faster access (mimickinghashmaps)
 
 🚀 **Secondary:**
 - Identify user agent groups based on specified conditions.
-   - High used vs low used user-agents to choose for fuzzing
+   - High used vs low used User agents to choose for fuzzing
 - Display statistics about general and mobile user agents.
 - Provide options for data visualization using pie charts, word clouds, and more.
 
@@ -72,7 +72,7 @@ As a PoC have provided the `ua-stats.py` script which draw various statistics ou
         "title": "ABrowse 0.6",
         "group": "ABrowse",
         "id": "ua-1",
-        "user-agent": "Mozilla/5.0 (compatible; U; ABrowse 0.6; Syllable) AppleWebKit/420+ (KHTML, like Gecko)",
+        "User agent": "Mozilla/5.0 (compatible; U; ABrowse 0.6; Syllable) AppleWebKit/420+ (KHTML, like Gecko)",
         "Host": "General"
     },
    .
@@ -85,7 +85,7 @@ As a PoC have provided the `ua-stats.py` script which draw various statistics ou
         "title": "WDG_Validator 1.6.2",
         "group": "WDG_Validator",
         "id": "ua-11256",
-        "user-agent": "WDG_Validator/1.6.2",
+        "User agent": "WDG_Validator/1.6.2",
         "Host": "Mobile"
     }
    ]
@@ -98,14 +98,14 @@ As a PoC have provided the `ua-stats.py` script which draw various statistics ou
    <span style="color: green;">[+]</span> Mobile User Agents: <span style="color: cyan;">629</span>
    <span style="color: green;">[+]</span> Total User Agents: <span style="color: cyan;">11256</span>
    <span style="color: green;">[+]</span> JSON file updated successfully.
-   <span style="color: yellow;">[!]</span> No new user-agents found.
+   <span style="color: yellow;">[!]</span> No new User agents found.
    </code>
    </pre>
 ## Statistics
 
 As a PoC, have added a basic statistics deriving script `ua-stats.py` that uses the `user_agents.json` as input file.
 
-`ua-stats.py` script will prompt you to interactively choose from various options, such as viewing pie charts and generating word clouds from the `user_agents.json` data.
+`ua-stats.py` script will prompt you to interactively choose from various options, such as viewing pie chartsand generating word clouds from the `user_agents.json` data.
 
 ## How to Use `ua-stats.py`
 
@@ -132,7 +132,7 @@ As a PoC, have added a basic statistics deriving script `ua-stats.py` that uses 
    Enter your choice (1/2/3/4/5/6/7/8): 
    ```
 
-This is only a PoC to use of using the json file data, there could be more analysis you could think of with this data. 😀
+This is only a PoCto use of using the json file data, there could be more analysis you could think of with this data. 😀
 
 **Few Samples Below**
 
@@ -140,29 +140,29 @@ This is only a PoC to use of using the json file data, there could be more analy
 
 <p align="center">
   <strong>Highest Mobile User Agents</strong><br>
-  <img src="Charts/Highest%20Mobile%20User-agents.png" alt="Highest Mobile User Agents">
+  <img src="Charts/Highest%20Mobile%20User agents.png" alt="Highest Mobile User Agents">
 </p>
 
 <p align="center">
   <strong>Mobile User Agents &lt; 500</strong><br>
-  <img src="Charts/Mobile%20User-agents%20less%20than%20500.png" alt="Mobile User Agents < 500">
+  <img src="Charts/Mobile%20User agents%20less%20than%20500.png" alt="Mobile User Agents < 500">
 </p>
 
 **General**
 
 <p align="center">
   <strong>Highest General User Agents</strong><br>
-  <img src="Charts/Highest%20General%20User-agents.png" alt="Highest General User Agents">
+  <img src="Charts/Highest%20General%20User agents.png" alt="Highest General User Agents">
 </p>
 
 <p align="center">
   <strong>General User Agents &gt; 500</strong><br>
-  <img src="Charts/General%20User-agents%20greater%20than%20500.png" alt="General User Agents > 500">
+  <img src="Charts/General%20User agents%20greater%20than%20500.png" alt="General User Agents > 500">
 </p>
 
 <p align="center">
   <strong>General User Agents &lt; 500</strong><br>
-  <img src="Charts/General%20User-agents%20less%20than%20500.png" alt="General User Agents < 500">
+  <img src="Charts/General%20User agents%20less%20than%20500.png" alt="General User Agents < 500">
 </p>
 
 ## Note
