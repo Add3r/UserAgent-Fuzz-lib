@@ -9,134 +9,59 @@
 [![Awesome](https://img.shields.io/badge/Awesome-%F0%9F%98%8E-blueviolet.svg)](https://shields.io/)
 ![Made with Love](https://img.shields.io/badge/Made%20with-%E2%9D%A4-red.svg)
 [![Support](https://img.shields.io/static/v1?label=Support&message=Ko-fi&color=ff5e5b&logo=ko-fi)](https://ko-fi.com/add3r)
-
 ![Repository Views](https://komarev.com/ghpvc/?username=Add3r&label=Repository+Views)
 ![Python](https://img.shields.io/badge/Python-3.11.5-blue.svg)
-![Total User-Agents Archived](https://img.shields.io/badge/Total%20User--Agents%20Archived-11080-blue.svg)
-![Mobile User-Agents](https://img.shields.io/badge/Mobile%20User--Agents-627-orange.svg)
-![General User-Agents](https://img.shields.io/badge/General%20User--Agents-10453-green.svg)
+![Total User-Agents Archived](https://img.shields.io/badge/Total%20User--Agents%20Archived-11170-blue.svg)
+![Mobile User-Agents](https://img.shields.io/badge/Mobile%20User--Agents-626-orange.svg)
+![General User-Agents](https://img.shields.io/badge/General%20User--Agents-10474-green.svg)
+![AI User-Agents](https://img.shields.io/badge/AI%20User--Agents-70-purple.svg)
 
 </div>
 
-# UserAgent Fuzzing-Library
+# UserAgent Fuzzing Library
 
-This repository holds data of all the user agents in the `user_agents.json` file, which can be used directly with any tool that can parse json format.
+This repository contains a combined user-agent collection in [`user_agents.json`](user_agents.json). The records can be consumed by any tool that reads JSON and retain the project's existing five fields: `title`, `group`, `id`, `user-agent`, and `platform`.
 
-download the repo to update the user-agent data by running `ua-fuzz-lib.py` and edit the file per the fields you would like to add or remove.
+The library supports proxy and application testing, including the [Proxy_Bypass](https://github.com/Add3r/Proxy_Bypass) vulnerability research tool. Browser records use `General` or `Mobile` as their `platform`; AI records use `AI` and the shared `AI-Agents` group.
 
-This dictionary of useragents was built to provide as input to [Proxy_Bypass](https://github.com/Add3r/Proxy_Bypass) vulnerability research tool to use the `user-agents.json` file as input for fuzzing proxies.
+## Sources and refreshes
 
-As a PoC have provided the `ua-stats.py` script which draw various statistics out of the `user-agents.json` file as input
+The unified [`ua-fuzz-lib.py`](ua-fuzz-lib.py) updater reads browser user-agent strings from [useragentstring.com](https://www.useragentstring.com/pages/All/) and AI bot HTTP User-Agent values from the [Cloudflare Radar Bots API](https://developers.cloudflare.com/api/resources/radar/subresources/bots/methods/get/). The AI refresh requests the `AI_CRAWLER`, `AI_ASSISTANT`, and `AI_SEARCH` categories. Values are copied from Radar's `userAgents` field; entries with no HTTP User-Agent and obvious templates/placeholders are skipped. Radar may publish a concise identifier for some bots, so values are preserved as Radar reports them.
 
-## Overview
+You can use the committed JSON file without a Cloudflare token. To refresh the complete library, create a Cloudflare API token with **Account → Radar → Read** permission. In Cloudflare, open **My Profile → API Tokens**, create a custom token, and grant that permission. See Cloudflare's [token creation guide](https://developers.cloudflare.com/fundamentals/api/get-started/create-token/) and [Radar API guide](https://developers.cloudflare.com/radar/get-started/first-request/).
 
-🎯 **Primary:**
-- The User Agent Dict python script is designed to scrape from [useragentstring.com](https://www.useragentstring.com/pages/All/)
-- To use as Fuzzing library of user-agents used for vulnerability research tools (.i.e) [Proxy_Bypass](https://github.com/Add3r/Proxy_Bypass)
-- Organize the data into dictionaries, for faster access (mimicing hashmaps)
+Set the token in your terminal session so it is not saved in a project file. In zsh, this prompts without echoing the token:
 
-🚀 **Secondary:**
-- Identify user agent groups based on specified conditions.
-   - High used vs low used user-agents to choose for fuzzing
-- Display statistics about general and mobile user agents.
-- Provide options for data visualization using pie charts, word clouds, and more.
+```zsh
+read -s "CLOUDFLARE_API_TOKEN?Cloudflare API token: "
+export CLOUDFLARE_API_TOKEN
+echo
+```
 
-## How to Use
+Install the dependencies and run the combined updater:
 
-1. **Installation:**
-   Clone this repository to your local machine.
+```bash
+python3 -m venv venv
+source venv/bin/activate
+python3 -m pip install -r requirements.txt
+python3 ua-fuzz-lib.py
+```
 
-2. **Setup:**
-   Install the required libraries using the following command:
-   
-   ```bash
-   pip3 install -r requirements.txt
-   ```
+The updater fetches both sources before asking whether to print or replace the combined JSON file. If either source fails, it stops without changing the saved library. It assigns AI IDs after the browser IDs and reports counts for General, Mobile, AI, and total records. No schedule runs automatically; run the script when you want to refresh the snapshot.
 
-3. **Run the Script:**
-   Open a terminal and navigate to the project directory. Run the script using the following command:
+## Snapshot
 
-   ```bash
-   python3 ua-fuzz-lib.py
-   ```
+The checked-in snapshot contains 11,100 browser records and 70 AI User-Agent values (11,170 records total). The browser records include 10,474 General and 626 Mobile entries. The AI values cover 60 bot names; Cloudflare does not provide a concrete HTTP User-Agent for every bot in its directory.
 
-## Sample Output
-   
-   ***If you would like to print on screen***
-   ```
-   > python3 ua-fuzz-lib.py
-   Do you want to print the data on the screen? (yes/no): yes
-   
-   [
-    {
-        "title": "ABrowse 0.6",
-        "group": "ABrowse",
-        "id": "ua-1",
-        "user-agent": "Mozilla/5.0 (compatible; U; ABrowse 0.6; Syllable) AppleWebKit/420+ (KHTML, like Gecko)",
-        "Host": "General"
-    },
-   .
-   .
-   .
-   (output Truncated)
-   .
-   .
-    {
-        "title": "WDG_Validator 1.6.2",
-        "group": "WDG_Validator",
-        "id": "ua-11256",
-        "user-agent": "WDG_Validator/1.6.2",
-        "Host": "Mobile"
-    }
-   ]
-   ```
-   ***If you would like to update the `user_agents.json` file***
-   <pre>
-   <code>
-   Do you want to update the JSON file? (yes/no): yes
-   <span style="color: green;">[+]</span> General User Agents: <span style="color: cyan;">10627</span>
-   <span style="color: green;">[+]</span> Mobile User Agents: <span style="color: cyan;">629</span>
-   <span style="color: green;">[+]</span> Total User Agents: <span style="color: cyan;">11256</span>
-   <span style="color: green;">[+]</span> JSON file updated successfully.
-   <span style="color: yellow;">[!]</span> No new user-agents found.
-   </code>
-   </pre>
-## Statistics
+## Statistics and charts
 
-As a PoC, have added a basic statistics deriving script `ua-stats.py` that uses the `user_agents.json` as input file.
+[`ua-stats.py`](ua-stats.py) reads the same combined `user_agents.json` file and offers the existing General/Mobile group charts plus AI bot charts and a platform breakdown. Run it after installing the requirements:
 
-`ua-stats.py` script will prompt you to interactively choose from various options, such as viewing pie charts and generating word clouds from the `user_agents.json` data.
+```bash
+python3 ua-stats.py
+```
 
-## How to Use `ua-stats.py`
-
-1. **Run the Script:**
-   Open a terminal and navigate to the project directory. Run the script using the following command:
-
-   ```bash
-   python3 ua-stats.py
-   ```
-
-## Sample Output
-
-   ```
-   > python3 ua-stats.py
-   Select an option:
-   1. Pie chart for Mobile User Agents (Count < 10)
-   2. Pie chart for Mobile User Agents (10 <= Count < 500)
-   3. Pie chart for General User Agents (10 <= Count < 50)
-   4. Pie chart for General User Agents (50 <= Count < 500)
-   5. Pie chart for General User Agents (Count >= 500)
-   6. Word Cloud for Mobile User Agent Group Names
-   7. Word Cloud for General User Agent Group Names
-   8. Exit
-   Enter your choice (1/2/3/4/5/6/7/8): 
-   ```
-
-This is only a PoC to use of using the json file data, there could be more analysis you could think of with this data. 😀
-
-**Few Samples Below**
-
-**Mobile**
+AI records share the `AI-Agents` group by design, so AI charts count by `title` (bot name). The menu offers an AI bot-name chart, an AI bot-name word cloud, a summary of header variants per bot, and a General/Mobile/AI platform chart.
 
 <p align="center">
   <strong>Highest Mobile User Agents</strong><br>
@@ -144,30 +69,20 @@ This is only a PoC to use of using the json file data, there could be more analy
 </p>
 
 <p align="center">
-  <strong>Mobile User Agents &lt; 500</strong><br>
-  <img src="Charts/Mobile%20User-agents%20less%20than%20500.png" alt="Mobile User Agents < 500">
-</p>
-
-**General**
-
-<p align="center">
   <strong>Highest General User Agents</strong><br>
   <img src="Charts/Highest%20General%20User-agents.png" alt="Highest General User Agents">
 </p>
 
 <p align="center">
-  <strong>General User Agents &gt; 500</strong><br>
-  <img src="Charts/General%20User-agents%20greater%20than%20500.png" alt="General User Agents > 500">
+  <strong>AI bot names by Radar header variants</strong><br>
+  <img src="Charts/AI%20User-agent%20variants.png" alt="AI bot names grouped by number of Radar HTTP User-Agent values">
 </p>
 
 <p align="center">
-  <strong>General User Agents &lt; 500</strong><br>
-  <img src="Charts/General%20User-agents%20less%20than%20500.png" alt="General User Agents < 500">
+  <strong>All AI User-Agent titles by record count</strong><br>
+  <img src="Charts/AI%20User-agent%20titles.png" alt="All AI User-Agent titles ranked by record count">
 </p>
 
-## Note
-The script may require an internet connection to retrieve data from the specified URL.
-If you encounter any issues or have questions, feel free to open an issue in this repository.
-
 ## License
-This project is licensed under the GPL 3.0 License - see the LICENSE file for details.
+
+This project is licensed under the GPL 3.0 License; see [LICENSE](LICENSE).
