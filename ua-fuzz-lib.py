@@ -1,165 +1,229 @@
+"""Refresh the combined browser and AI user-agent library."""
+
+import json
+import os
+import tempfile
+from collections import Counter
+from pathlib import Path
+
 import requests
 from bs4 import BeautifulSoup
-import json
 
-# Color Codes for Printing
+
 GREEN = "\033[32m"
 YELLOW = "\033[33m"
 BLUE = "\033[34m"
 RED = "\033[31m"
 RESET = "\033[0m"
 
-class UserAgentFuzzLib:
-    def __init__(self):
-        self.url = "https://www.useragentstring.com/pages/useragentstring.php?name=All"
-        self.user_agents = []
-        self.sequence = 0
-        self.seen_combinations = set()
-        self.mobile_detected = False
+JSON_FILE_PATH = Path("user_agents.json")
+BROWSER_URL = "https://www.useragentstring.com/pages/useragentstring.php?name=All"
+RADAR_BOTS_URL = "https://api.cloudflare.com/client/v4/radar/bots"
+AI_CATEGORIES = ("AI_CRAWLER", "AI_ASSISTANT", "AI_SEARCH")
 
-    def parse_user_agents(self):
-        try:
-            response = requests.get(self.url)
-            response.raise_for_status()  # Raise an exception if there's an HTTP error
-            soup = BeautifulSoup(response.content, 'html.parser')
 
-            for tag in soup.find_all(True):
-                if tag.name == 'h3':
-                    group_text = tag.get_text(strip=True)
-                    if group_text == "MOBILE BROWSERS":
-                        host = "Mobile"
-                    else:
-                        host = "General"
-                    group = group_text
-            
-                elif tag.name == 'h4':
-                    title = tag.get_text(strip=True)
-            
-                    ul_tag = tag.find_next('ul')
-                    a_tags = ul_tag.find_all('a')
-            
-                    for a_tag in a_tags:
-                        href = a_tag['href']
-                        user_agent = a_tag.text
-                        user_agent = user_agent.replace("-->>", "")
+def ask_yes_no(prompt):
+    while True:
+        answer = input(prompt).strip().lower()
+        if answer in ("yes", "no"):
+            return answer == "yes"
+        print(f"{RED}[ERROR]{RESET} Please enter 'yes' or 'no.'")
 
-                        if user_agent.startswith("More"):
-                            continue
 
-                        if "Opera/9.80 (J2ME/MIDP; Opera Mini/4.2.14912Mod.By.www.9jamusic.cz.cc/22.387; U; en)" in user_agent:
-                            continue
-                
-                        host = "Mobile" if self.mobile_detected else "General"
-                
-                        if (user_agent, title) in self.seen_combinations:
-                            continue
-                
-                        self.sequence += 1
-                        ua_dict = {
-                            "title": title if title != "Opera/9.80 (J2ME/MIDP; Opera Mini/4.2.14912Mod.By.www.9jamusic.cz.cc/22.387; U; en)" else "",
-                            "group": group if group != "Opera/9.80 (J2ME/MIDP; Opera Mini/4.2.14912Mod.By.www.9jamusic.cz.cc/22.387; U; en)" else "",
-                            "id": f"ua-{self.sequence}",
-                            "user-agent": user_agent if user_agent != "Opera/9.80 (J2ME/MIDP; Opera Mini/4.2.14912Mod.By.www.9jamusic.cz.cc/22.387; U; en)" else "",
-                            "platform": host
-                        }
-                
-                        if "Xenu Link Sleuth/1.3.7" in user_agent:
-                            self.mobile_detected = True
-            
-                        self.user_agents.append(ua_dict)
-                        self.seen_combinations.add((user_agent, title))
-        
-        except requests.exceptions.RequestException as e:
-            print(f"{RED}[ERROR]{RESET} Unable to retrieve data from the URL.")
-        except (AttributeError, ValueError, BeautifulSoup.exceptions.BeautifulSoupError) as e:
-            print(f"{RED}[ERROR]{RESET} Error while parsing HTML:", e)
-        except KeyboardInterrupt:
-            print(f"\n{RED}[ERROR]{RESET} Program interrupted by user.")
-            exit(1)
+def fetch_browser_user_agents():
+    response = requests.get(BROWSER_URL, timeout=30)
+    response.raise_for_status()
+    soup = BeautifulSoup(response.content, "html.parser")
+    records = []
+    seen = set()
+    group = ""
+    mobile_detected = False
 
-    def print_user_agents(self):
-        try:
-            while True:
-                print_data = input("Do you want to print the data on the screen? (yes/no): ").lower()
-                if print_data in ["yes", "no"]:
-                    break
-                else:
-                    print(f"{RED}[ERROR]{RESET} Please enter 'yes' or 'no.'")
+    for tag in soup.find_all(["h3", "h4"]):
+        if tag.name == "h3":
+            group = tag.get_text(strip=True)
+            continue
 
-            if print_data == "yes":
-                print(json.dumps(self.user_agents, indent=4))
-            else:
-                print(f"{YELLOW}[!]{RESET} Data was not printed on the screen.")
-        except KeyboardInterrupt:
-            print(f"\n{RED}[ERROR]{RESET} Program interrupted by user.")
-            exit(1)
+        title = tag.get_text(strip=True)
+        listing = tag.find_next("ul")
+        if listing is None:
+            continue
+        for anchor in listing.find_all("a"):
+            user_agent = anchor.get_text(strip=True).replace("-->>", "")
+            if not user_agent or user_agent.startswith("More"):
+                continue
+            if "Opera/9.80 (J2ME/MIDP; Opera Mini/4.2.14912Mod.By.www.9jamusic.cz.cc/22.387; U; en)" in user_agent:
+                continue
+            key = (user_agent, title)
+            if key in seen:
+                continue
+            seen.add(key)
+            platform = "Mobile" if mobile_detected else "General"
+            records.append({
+                "title": title,
+                "group": group,
+                "id": f"ua-{len(records) + 1}",
+                "user-agent": user_agent,
+                "platform": platform,
+            })
+            if "Xenu Link Sleuth/1.3.7" in user_agent:
+                mobile_detected = True
 
-    def update_json_file(self):
-        try:
-            while True:
-                update_json = input("Do you want to update the JSON file? (yes/no): ").lower()
-                if update_json in ["yes", "no"]:
-                    break
-                else:
-                    print(f"{RED}[ERROR]{RESET} Please enter 'yes' or 'no.'")
+    if not records:
+        raise ValueError("The browser source returned no user-agent records.")
+    return records
 
-            if update_json == "yes":
-                json_file_path = "user_agents.json"
-            
-                try:
-                    with open(json_file_path, "w") as json_file:
-                        json.dump(self.user_agents, json_file, indent=4)
-                        print(GREEN + "[+]" + RESET + " JSON file updated successfully.")
-                
-                    self.print_new_user_agents()  
-                
-                except (FileNotFoundError, PermissionError, json.JSONDecodeError) as e:
-                    print(f"{RED}[ERROR]{RESET} Error while updating JSON file:", e)
-            else:  
-                print(RED + "[x]" + RESET + " JSON file was not updated.")
-                self.print_new_user_agents()
 
-        except KeyboardInterrupt:
-            print(f"\n{RED}[ERROR]{RESET} Program interrupted by user.")
-            exit(1)
-    
-    # Method to check if new user agents found
-    def print_new_user_agents(self):
-        total_user_agents_before = len(self.user_agents)
-                
-        if len(self.user_agents) > total_user_agents_before:
-            new_user_agents = self.user_agents[total_user_agents_before:]
-            print(GREEN + '[+]' + RESET + " New User Agents Identified: " + BLUE + str(len(new_user_agents)) + RESET)
-            for ua in new_user_agents:
-                ua_dict = {
-                    "title": ua[0],
-                    "group": ua[1],
-                    "id": ua[2],
-                    "user-agent": ua[3],
-                    "platform": ua[4]
-                }
-                print(json.dumps(ua_dict, indent=4))
-                    
-            input("Press Enter to acknowledge...")
+def radar_get(path, token, params=None):
+    response = requests.get(
+        f"{RADAR_BOTS_URL}{path}",
+        headers={"Authorization": f"Bearer {token}"},
+        params=params,
+        timeout=30,
+    )
+    response.raise_for_status()
+    payload = response.json()
+    if not payload.get("success"):
+        raise ValueError("Cloudflare Radar returned an unsuccessful response.")
+    return payload.get("result", {})
+
+
+def list_ai_bots(token):
+    bots_by_slug = {}
+    for category in AI_CATEGORIES:
+        offset = 0
+        while True:
+            result = radar_get("", token, {
+                "botCategory": category,
+                "limit": 1000,
+                "offset": offset,
+                "format": "JSON",
+            })
+            bots = result.get("bots")
+            if not isinstance(bots, list):
+                raise ValueError("Cloudflare Radar response is missing its bot list.")
+            for bot in bots:
+                if not isinstance(bot, dict) or not bot.get("slug"):
+                    raise ValueError("Cloudflare Radar returned a bot without a slug.")
+                bots_by_slug[bot["slug"]] = bot
+            if len(bots) < 1000:
+                break
+            offset += len(bots)
+    if not bots_by_slug:
+        raise ValueError("Cloudflare Radar returned no AI bots.")
+    return list(bots_by_slug.values())
+
+
+def is_concrete_user_agent(user_agent):
+    """Ignore patterns and placeholders rather than recorded header values."""
+    markers = ("*", "[", "]", "W.X.Y.Z", "...")
+    return not any(marker in user_agent for marker in markers) and not user_agent.endswith("/")
+
+
+def fetch_ai_user_agents(token, id_offset):
+    records = []
+    missing_headers = []
+    template_headers = []
+    for listed_bot in list_ai_bots(token):
+        bot = radar_get(f"/{listed_bot['slug']}", token).get("bot")
+        if not isinstance(bot, dict):
+            raise ValueError(f"Cloudflare Radar returned no detail for {listed_bot['slug']}.")
+        name = bot.get("name", listed_bot.get("name", listed_bot["slug"]))
+        user_agents = bot.get("userAgents")
+        if not isinstance(user_agents, list) or not user_agents:
+            missing_headers.append(name)
+            continue
+        for user_agent in dict.fromkeys(user_agents):
+            if not isinstance(user_agent, str) or not user_agent.strip() or user_agent != user_agent.strip():
+                raise ValueError(f"Cloudflare Radar returned an invalid HTTP User-Agent for {name}.")
+            if not is_concrete_user_agent(user_agent):
+                template_headers.append(name)
+                continue
+            records.append({
+                "title": name,
+                "group": "AI-Agents",
+                "id": f"ua-{id_offset + len(records) + 1}",
+                "user-agent": user_agent,
+                "platform": "AI",
+            })
+    if not records:
+        raise ValueError("Cloudflare Radar returned no concrete AI HTTP User-Agent values.")
+    return records, missing_headers, template_headers
+
+
+def load_existing_records():
+    try:
+        with JSON_FILE_PATH.open(encoding="utf-8") as source:
+            records = json.load(source)
+        if not isinstance(records, list):
+            raise ValueError("user_agents.json must contain a JSON array.")
+        return records
+    except FileNotFoundError:
+        return []
+
+
+def save_records(records):
+    JSON_FILE_PATH.parent.mkdir(parents=True, exist_ok=True)
+    temp_path = None
+    try:
+        with tempfile.NamedTemporaryFile("w", encoding="utf-8", dir=JSON_FILE_PATH.parent,
+                                         delete=False) as target:
+            temp_path = Path(target.name)
+            json.dump(records, target, indent=4, ensure_ascii=False)
+            target.write("\n")
+        os.replace(temp_path, JSON_FILE_PATH)
+    finally:
+        if temp_path and temp_path.exists():
+            temp_path.unlink()
+
+
+def print_statistics(records):
+    counts = Counter(record["platform"] for record in records)
+    for platform in ("General", "Mobile", "AI"):
+        print(f"{GREEN}[+]{RESET} {platform} User Agents: {BLUE}{counts[platform]}{RESET}")
+    print(f"{GREEN}[+]{RESET} Total User Agents: {BLUE}{len(records)}{RESET}")
+
+
+def main():
+    token = os.environ.get("CLOUDFLARE_API_TOKEN")
+    if not token:
+        print(f"{RED}[ERROR]{RESET} Set CLOUDFLARE_API_TOKEN to refresh the combined library.")
+        return 1
+
+    try:
+        browser_records = fetch_browser_user_agents()
+        ai_records, missing, templates = fetch_ai_user_agents(token, len(browser_records))
+        records = browser_records + ai_records
+        for name in missing:
+            print(f"{YELLOW}[!]{RESET} Skipping {name}: Radar has no HTTP User-Agent value.")
+        for name in templates:
+            print(f"{YELLOW}[!]{RESET} Skipping template User-Agent listed for {name}.")
+
+        if ask_yes_no("Do you want to print the data on the screen? (yes/no): "):
+            print(json.dumps(records, indent=4, ensure_ascii=False))
         else:
-            print(f"{YELLOW}[!]{RESET} No new user-agents found.")
+            print(f"{YELLOW}[!]{RESET} Data was not printed on the screen.")
 
-    def print_updates(self):
-        try:
-            mobile_user_agents = sum(1 for ua in self.user_agents if ua["platform"] == "Mobile")
-            general_user_agents = sum(1 for ua in self.user_agents if ua["platform"] == "General")
-            total_user_agents_after = len(self.user_agents)
+        previous = load_existing_records()
+        old_pairs = {(item.get("platform"), item.get("title"), item.get("user-agent"))
+                     for item in previous if isinstance(item, dict)}
+        new_records = [item for item in records
+                       if (item["platform"], item["title"], item["user-agent"]) not in old_pairs]
+        if ask_yes_no("Do you want to update the combined JSON file? (yes/no): "):
+            save_records(records)
+            print(f"{GREEN}[+]{RESET} user_agents.json updated successfully.")
+        else:
+            print(f"{RED}[x]{RESET} JSON file was not updated.")
+        print(f"{GREEN}[+]{RESET} New User-Agent records: {BLUE}{len(new_records)}{RESET}")
+        print_statistics(records)
+    except (requests.exceptions.RequestException, ValueError, OSError, json.JSONDecodeError) as error:
+        print(f"{RED}[ERROR]{RESET} Unable to update user-agents: {error}")
+        return 1
+    except (KeyboardInterrupt, EOFError):
+        print(f"\n{RED}[ERROR]{RESET} Program interrupted.")
+        return 1
+    return 0
 
-            print(GREEN + "[+]" + RESET + " General User Agents: " + BLUE + str(general_user_agents) + RESET)
-            print(GREEN + "[+]" + RESET + " Mobile User Agents: " + BLUE + str(mobile_user_agents) + RESET)
-            print(GREEN + "[+]" + RESET + " Total User Agents: " + BLUE + str(total_user_agents_after) + RESET)
-        except KeyboardInterrupt:
-            print(f"\n{RED}[ERROR]{RESET} Program interrupted by user.")
-            exit(1)
-    
+
 if __name__ == "__main__":
-    fuzzlib = UserAgentFuzzLib()
-    fuzzlib.parse_user_agents()
-    fuzzlib.print_user_agents()
-    fuzzlib.update_json_file()
-    fuzzlib.print_updates()
+    raise SystemExit(main())

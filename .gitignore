@@ -14,6 +14,17 @@ node_modules/
 # Exclude sensitive configuration files
 config.ini
 secrets.yaml
+.env
+.env.*
+!.env.example
+*.env
+*.secret
+*.secrets
+*.token
+*.token.*
+.cloudflare-token*
+cloudflare-token*
+.direnv/
 
 # Exclude editor and IDE files
 .vscode/
@@ -48,6 +59,8 @@ doc/_build/
 
 # Exclude media and binary files
 *.png
+!Charts/AI User-agent variants.png
+!Charts/AI User-agent titles.png
 *.jpg
 *.jpeg
 *.gif
