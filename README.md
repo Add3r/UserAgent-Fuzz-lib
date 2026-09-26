@@ -1,14 +1,8 @@
-<p align="center">
-  <img src="images/user-agent-dict-logo.png" alt="User Agent Dictionary Logo">
-</p>
-
 <div align="center">
-
-![GitHub release (latest by date)](https://img.shields.io/github/v/release/Add3r/UserAgent-Parser)
-[![License: GPL-3.0](https://img.shields.io/badge/License-GPL--3.0-yellow.svg)](https://github.com/Add3r/UserAgent-Parser/blob/main/LICENSE)
+![Version](https://img.shields.io/badge/version-3.0.0-blue.svg)
+![License: GPL-3.0](https://img.shields.io/badge/License-GPL--3.0-yellow.svg)
 [![Awesome](https://img.shields.io/badge/Awesome-%F0%9F%98%8E-blueviolet.svg)](https://shields.io/)
 ![Made with Love](https://img.shields.io/badge/Made%20with-%E2%9D%A4-red.svg)
-[![Support](https://img.shields.io/static/v1?label=Support&message=Ko-fi&color=ff5e5b&logo=ko-fi)](https://ko-fi.com/add3r)
 ![Repository Views](https://komarev.com/ghpvc/?username=Add3r&label=Repository+Views)
 ![Python](https://img.shields.io/badge/Python-3.11.5-blue.svg)
 ![Total User-Agents Archived](https://img.shields.io/badge/Total%20User--Agents%20Archived-11170-blue.svg)
@@ -20,52 +14,110 @@
 
 # UserAgent Fuzzing Library
 
-This repository contains a combined user-agent collection in [`user_agents.json`](user_agents.json). The records can be consumed by any tool that reads JSON and retain the project's existing five fields: `title`, `group`, `id`, `user-agent`, and `platform`.
+Version 3.0.0 is a JSON user-agent library for proxy and application testing. The checked-in [`user_agents.json`](user_agents.json) can be used directly by any JSON-capable tool, including [Proxy_Bypass](https://github.com/Add3r/Proxy_Bypass).
 
-The library supports proxy and application testing, including the [Proxy_Bypass](https://github.com/Add3r/Proxy_Bypass) vulnerability research tool. Browser records use `General` or `Mobile` as their `platform`; AI records use `AI` and the shared `AI-Agents` group.
+Each record has five fields: `title`, `group`, `id`, `user-agent`, and `platform`. Browser records use `General` or `Mobile`; AI records use `AI` and the shared `AI-Agents` group.
 
-## Sources and refreshes
+## Overview
 
-The unified [`ua-fuzz-lib.py`](ua-fuzz-lib.py) updater reads browser user-agent strings from [useragentstring.com](https://www.useragentstring.com/pages/All/) and AI bot HTTP User-Agent values from the [Cloudflare Radar Bots API](https://developers.cloudflare.com/api/resources/radar/subresources/bots/methods/get/). The AI refresh requests the `AI_CRAWLER`, `AI_ASSISTANT`, and `AI_SEARCH` categories. Values are copied from Radar's `userAgents` field; entries with no HTTP User-Agent and obvious templates/placeholders are skipped. Radar may publish a concise identifier for some bots, so values are preserved as Radar reports them.
+**Primary uses**
 
-You can use the committed JSON file without a Cloudflare token. To refresh the complete library, create a Cloudflare API token with **Account → Radar → Read** permission. In Cloudflare, open **My Profile → API Tokens**, create a custom token, and grant that permission. See Cloudflare's [token creation guide](https://developers.cloudflare.com/fundamentals/api/get-started/create-token/) and [Radar API guide](https://developers.cloudflare.com/radar/get-started/first-request/).
+- Refresh and maintain a fuzzing library of browser and AI HTTP User-Agent values.
+- Consume the JSON data directly in security research, proxy testing, or other automation.
+- Look up records by group or platform without re-scraping the sources.
 
-Set the token in your terminal session so it is not saved in a project file. In zsh, this prompts without echoing the token:
+**Included tools**
+
+- [`ua-fuzz-lib.py`](ua-fuzz-lib.py) refreshes the combined JSON library.
+- [`ua-stats.py`](ua-stats.py) creates charts and word clouds from the saved data.
+
+## How to use the library
+
+Clone the repository and install its dependencies:
+
+```bash
+git clone https://github.com/Add3r/UserAgent-Fuzz-lib.git
+cd UserAgent-Fuzz-lib
+python3 -m venv venv
+source venv/bin/activate
+python3 -m pip install -r requirements.txt
+```
+
+The committed `user_agents.json` is ready to use immediately. To refresh it from the sources, set a Cloudflare Radar API token for the AI data and run the updater:
 
 ```zsh
 read -s "CLOUDFLARE_API_TOKEN?Cloudflare API token: "
 export CLOUDFLARE_API_TOKEN
 echo
-```
-
-Install the dependencies and run the combined updater:
-
-```bash
-python3 -m venv venv
-source venv/bin/activate
-python3 -m pip install -r requirements.txt
 python3 ua-fuzz-lib.py
 ```
 
-The updater fetches both sources before asking whether to print or replace the combined JSON file. If either source fails, it stops without changing the saved library. It assigns AI IDs after the browser IDs and reports counts for General, Mobile, AI, and total records. No schedule runs automatically; run the script when you want to refresh the snapshot.
+The updater collects browser records and AI HTTP User-Agent values before asking whether to print them or replace `user_agents.json`. If a source fails, the saved JSON file is left unchanged.
 
-## Snapshot
+## Example record
 
-The checked-in snapshot contains 11,100 browser records and 70 AI User-Agent values (11,170 records total). The browser records include 10,474 General and 626 Mobile entries. The AI values cover 60 bot names; Cloudflare does not provide a concrete HTTP User-Agent for every bot in its directory.
+```json
+{
+  "title": "ABrowse 0.6",
+  "group": "ABrowse",
+  "id": "ua-1",
+  "user-agent": "Mozilla/5.0 (compatible; U; ABrowse 0.6; Syllable) AppleWebKit/420+ (KHTML, like Gecko)",
+  "platform": "General"
+}
+```
 
-## Statistics and charts
+## Sample updater result
 
-[`ua-stats.py`](ua-stats.py) reads the same combined `user_agents.json` file and offers the existing General/Mobile group charts plus AI bot charts and a platform breakdown. Run it after installing the requirements:
+```text
+$ python3 ua-fuzz-lib.py
+Do you want to print the data on the screen? (yes/no): no
+[!] Data was not printed on the screen.
+Do you want to update the combined JSON file? (yes/no): yes
+[+] user_agents.json updated successfully.
+[+] New User-Agent records: 0
+[+] General User Agents: 10474
+[+] Mobile User Agents: 626
+[+] AI User Agents: 70
+[+] Total User Agents: 11170
+```
+
+## Statistics and sample results
+
+Use the statistics tool to explore the saved library:
 
 ```bash
 python3 ua-stats.py
 ```
 
-AI records share the `AI-Agents` group by design, so AI charts count by `title` (bot name). The menu offers an AI bot-name chart, an AI bot-name word cloud, a summary of header variants per bot, and a General/Mobile/AI platform chart.
+It offers General and Mobile group charts, word clouds, platform totals, and AI bot charts:
+
+```text
+Select an option:
+1. Mobile groups (count < 10)
+2. Mobile groups (10 <= count < 500)
+3. General groups (10 <= count < 50)
+4. General groups (50 <= count < 500)
+5. General groups (count >= 500)
+6. Mobile group word cloud
+7. General group word cloud
+8. AI bots with most header variants
+9. AI bot name word cloud
+10. All platforms
+11. AI bots by number of header variants
+12. All AI User-Agent titles by record count
+13. Exit
+```
+
+### Browser user-agent samples
 
 <p align="center">
   <strong>Highest Mobile User Agents</strong><br>
   <img src="Charts/Highest%20Mobile%20User-agents.png" alt="Highest Mobile User Agents">
+</p>
+
+<p align="center">
+  <strong>Mobile User Agents with fewer than 500 records</strong><br>
+  <img src="Charts/Mobile%20User-agents%20less%20than%20500.png" alt="Mobile User Agents with fewer than 500 records">
 </p>
 
 <p align="center">
@@ -74,15 +126,31 @@ AI records share the `AI-Agents` group by design, so AI charts count by `title` 
 </p>
 
 <p align="center">
-  <strong>AI bot names by Radar header variants</strong><br>
-  <img src="Charts/AI%20User-agent%20variants.png" alt="AI bot names grouped by number of Radar HTTP User-Agent values">
+  <strong>General User Agents with more than 500 records</strong><br>
+  <img src="Charts/General%20User-agents%20greater%20than%20500.png" alt="General User Agents with more than 500 records">
 </p>
 
 <p align="center">
-  <strong>All AI User-Agent titles by record count</strong><br>
-  <img src="Charts/AI%20User-agent%20titles.png" alt="All AI User-Agent titles ranked by record count">
+  <strong>General User Agents with fewer than 500 records</strong><br>
+  <img src="Charts/General%20User-agents%20less%20than%20500.png" alt="General User Agents with fewer than 500 records">
 </p>
+
+### AI user-agent samples
+
+<p align="center">
+  <strong>AI bot names by header variants</strong><br>
+  <img src="Charts/AI%20User-agent%20variants.png" alt="AI bot names grouped by number of HTTP User-Agent values">
+</p>
+
+<p align="center">
+  <strong>AI User-Agent titles by record count</strong><br>
+  <img src="Charts/AI%20User-agent%20titles.png" alt="AI User-Agent titles ranked by record count">
+</p>
+
+## AI user-agent source
+
+AI records are refreshed from the Cloudflare Radar Bots API for the `AI_CRAWLER`, `AI_ASSISTANT`, and `AI_SEARCH` categories. Entries without a concrete HTTP User-Agent or that are obvious templates are skipped. A token with **Account → Radar → Read** permission is required only when refreshing the library; consumers of the committed JSON do not need one.
 
 ## License
 
-This project is licensed under the GPL 3.0 License; see [LICENSE](LICENSE).
+This project is licensed under the GPL-3.0 License; see [LICENSE](LICENSE).
