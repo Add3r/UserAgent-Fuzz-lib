@@ -1,16 +1,19 @@
-<div align="center">
-![Version](https://img.shields.io/badge/version-3.0.0-blue.svg)
-![License: GPL-3.0](https://img.shields.io/badge/License-GPL--3.0-yellow.svg)
-[![Awesome](https://img.shields.io/badge/Awesome-%F0%9F%98%8E-blueviolet.svg)](https://shields.io/)
-![Made with Love](https://img.shields.io/badge/Made%20with-%E2%9D%A4-red.svg)
-![Repository Views](https://komarev.com/ghpvc/?username=Add3r&label=Repository+Views)
-![Python](https://img.shields.io/badge/Python-3.11.5-blue.svg)
-![Total User-Agents Archived](https://img.shields.io/badge/Total%20User--Agents%20Archived-11170-blue.svg)
-![Mobile User-Agents](https://img.shields.io/badge/Mobile%20User--Agents-626-orange.svg)
-![General User-Agents](https://img.shields.io/badge/General%20User--Agents-10474-green.svg)
-![AI User-Agents](https://img.shields.io/badge/AI%20User--Agents-70-purple.svg)
+<p align="center">
+  <img src="images/user-agent-dict-logo.png" alt="User Agent Fuzzing-Library logo" width="380">
+</p>
 
-</div>
+<p align="center">
+  <img src="https://img.shields.io/badge/version-3.0.0-blue.svg" alt="Version 3.0.0">
+  <img src="https://img.shields.io/badge/License-GPL--3.0-yellow.svg" alt="GPL-3.0 License">
+  <a href="https://shields.io/"><img src="https://img.shields.io/badge/Awesome-%F0%9F%98%8E-blueviolet.svg" alt="Awesome"></a>
+  <img src="https://img.shields.io/badge/Made%20with-%E2%9D%A4-red.svg" alt="Made with love">
+  <img src="https://komarev.com/ghpvc/?username=Add3r&label=Repository+Views" alt="Repository views">
+  <img src="https://img.shields.io/badge/Python-3.11.5-blue.svg" alt="Python 3.11.5">
+  <img src="https://img.shields.io/badge/Total%20User--Agents%20Archived-11170-blue.svg" alt="11,170 total user agents">
+  <img src="https://img.shields.io/badge/Mobile%20User--Agents-626-orange.svg" alt="626 mobile user agents">
+  <img src="https://img.shields.io/badge/General%20User--Agents-10474-green.svg" alt="10,474 general user agents">
+  <img src="https://img.shields.io/badge/AI%20User--Agents-70-purple.svg" alt="70 AI user agents">
+</p>
 
 # UserAgent Fuzzing Library
 
